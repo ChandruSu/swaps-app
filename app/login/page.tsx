@@ -16,7 +16,7 @@ export function AuthButton({
     <form action={onClick} className="w-full">
       <button
         type="submit"
-        className="flex items-center w-full justify-between rounded-lg bg-white px-6 py-3 text-xl font-semibold text-slate-500 transition-all duration-200 hover:-translate-y-1"
+        className="flex w-full items-center justify-between rounded-lg bg-white px-6 py-3 text-xl font-semibold text-slate-500 transition-all duration-200 hover:-translate-y-1"
       >
         <p>{name}</p>
         <Image src={image} width={24} height={24} alt={name} />
@@ -26,9 +26,9 @@ export function AuthButton({
 }
 
 export default async function Page() {
-  const session = await auth()
+  const session = await auth();
   if (session?.user) {
-    return redirect("/")
+    return redirect("/");
   }
 
   return (

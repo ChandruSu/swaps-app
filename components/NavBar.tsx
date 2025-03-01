@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
@@ -20,10 +21,24 @@ export function NavBar({ options }: NavBarProps) {
   );
 
   return (
-    <div className="grid grid-cols-[1fr_5fr_1fr] mx-12">
-      <div className="flex items-center">
-        {path === "/" || <p className="font-semibold text-3xl text-foreground">Swaps<span className="font-light">s</span></p>}
-      </div>
+    <div className="mx-12 grid grid-cols-[1fr_5fr_1fr]">
+      {path === "/" ? (
+        <div />
+      ) : (
+        <div className="flex items-center justify-center gap-2.5">
+          <Image
+            src="/swapss-logo-dark.svg"
+            width={30}
+            height={30}
+            alt="logo"
+          />
+          <p className="text-3xl font-semibold text-foreground">
+            Swaps
+            <span className="font-normal">s</span>
+            <span className="font-light">s</span>
+          </p>
+        </div>
+      )}
       <div className="flex items-center justify-center gap-6">
         {options.map((option, i) => (
           <Link key={option.label} href={option.path}>
