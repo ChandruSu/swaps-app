@@ -8,7 +8,7 @@ export function Panel({
   return (
     <div
       className={
-        "rounded-lg border border-white border-opacity-20 bg-white bg-opacity-15 p-8 " +
+        "rounded-lg border border-white border-opacity-25 bg-white bg-opacity-20 p-8 " +
         className
       }
     >

@@ -30,3 +30,40 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp2 {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  70% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.6s ease-out;
+}
+
+.fade-up-2 {
+  animation: fadeUp2 1.4s ease-out;
+}

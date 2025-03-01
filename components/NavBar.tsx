@@ -25,19 +25,21 @@ export function NavBar({ options }: NavBarProps) {
       {path === "/" ? (
         <div />
       ) : (
-        <div className="flex items-center justify-center gap-2.5">
-          <Image
-            src="/swapss-logo-dark.svg"
-            width={30}
-            height={30}
-            alt="logo"
-          />
-          <p className="text-3xl font-semibold text-foreground">
-            Swaps
-            <span className="font-normal">s</span>
-            <span className="font-light">s</span>
-          </p>
-        </div>
+        <Link href="/">
+          <div className="flex items-center justify-center gap-2.5">
+            <Image
+              src="/swapss-logo-dark.svg"
+              width={30}
+              height={30}
+              alt="logo"
+            />
+            <p className="text-3xl font-semibold text-foreground">
+              Swaps
+              <span className="font-normal">s</span>
+              <span className="font-light">s</span>
+            </p>
+          </div>
+        </Link>
       )}
       <div className="flex items-center justify-center gap-6">
         {options.map((option, i) => (
