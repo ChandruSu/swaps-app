@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default async function Home() {
   return (
-    <main className="p-18 grid grid-cols-2 h-full gap-6">
+    <main className="p-32 grid grid-cols-2 h-full gap-6">
       <div className="flex flex-col items-start justify-center justify-items-center gap-8">
         <h1 className="gradient-p fade-up text-8xl font-bold text-foreground">
           Swapsss

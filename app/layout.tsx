@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`min-h-screen ${poppins.className}`}>
+      <body className={`min-h-screen overflow-hidden ${poppins.className}`}>
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
