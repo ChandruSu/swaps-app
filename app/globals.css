@@ -59,7 +59,7 @@ body {
 }
 
 .fade-up {
-  animation: fadeUp 1.0s ease-out;
+  animation: fadeUp 1s ease-out;
 }
 
 .fade-up-2 {
@@ -131,8 +131,6 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {

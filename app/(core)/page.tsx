@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default async function Home() {
   return (
-    <main className="p-32 grid grid-cols-2 h-full gap-6">
+    <main className="grid h-full grid-cols-2 gap-6 p-32">
       <div className="flex flex-col items-start justify-center justify-items-center gap-8">
         <h1 className="gradient-p fade-up text-8xl font-bold text-foreground">
           Swapsss
@@ -24,7 +24,7 @@ export default async function Home() {
       <div className="relative flex items-center justify-center">
         <Ripple />
         <Link href="/dashboard">
-          <p className="bg-foreground font-medium rounded-full px-8 py-4 text-xl text-background hover:bg-[#303030] shadow-2xl transition-all duration-200">
+          <p className="rounded-full bg-foreground px-8 py-4 text-xl font-medium text-background shadow-2xl transition-all duration-200 hover:bg-[#303030]">
             Start Trading
           </p>
         </Link>

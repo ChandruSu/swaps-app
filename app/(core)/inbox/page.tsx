@@ -9,7 +9,7 @@ export default async function Page() {
   }
 
   return (
-    <div className="grid grid-cols-[1fr_3fr] h-full gap-5 mx-32 overflow-hidden">
+    <div className="mx-32 grid h-full grid-cols-[1fr_3fr] gap-5 overflow-hidden">
       <Client />
     </div>
   );
