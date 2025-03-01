@@ -1,8 +1,18 @@
 from fastapi import FastAPI
+from api import user, item, trade, trade_group
+from api.db import connect_db, disconnect_db
 
-### Create FastAPI instance with custom docs and openapi url
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
-@app.get("/api/py/helloFastApi")
-def hello_fast_api():
-    return {"message": "Hello from FastAPI"}
+app.include_router(user.router, prefix="/api/py")
+app.include_router(item.router, prefix="/api/py")
+app.include_router(trade.router, prefix="/api/py")
+app.include_router(trade_group.router, prefix="/api/py")
+
+@app.on_event("startup")
+async def startup():
+    await connect_db()
+
+@app.on_event("shutdown")
+async def shutdown():
+    await disconnect_db()

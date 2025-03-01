@@ -5,7 +5,7 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client-py"
 }
 
 model Account {
@@ -90,10 +90,41 @@ model Item {
   description String?
   imageUrl    String?
   createdAt   DateTime @default(now())
+  tags        Tag[]
 
   outgoingTrades TradeGraphEdge[] @relation("OutgoingEdges")
   incomingTrades TradeGraphEdge[] @relation("IncomingEdges")
 }
+
+enum Tag {
+  ELECTRONICS
+  CLOTHING
+  FURNITURE
+  BOOKS
+  SPORTS
+  TOYS
+  VEHICLES
+  ART
+  MUSIC
+  APPLIANCES
+  JEWELRY
+  COLLECTIBLES
+  GARDEN
+  PETS
+  HEALTH
+  BEAUTY
+  FOOD
+  HANDMADE
+  GAMING
+  OFFICE
+  OUTDOORS
+  HOME_DECOR
+  BABY
+  INDUSTRIAL
+  OTHER
+}
+
+
 
 model TradeGraphEdge {
   id String @id @default(uuid())
@@ -110,14 +141,14 @@ model TradeGraphEdge {
   toItemId String
   toItem   Item   @relation("IncomingEdges", fields: [toItemId], references: [id])
 
-  tradeProposalId String?
-  tradeProposal   TradeProposal? @relation(fields: [tradeProposalId], references: [id])
+  tradeGroupId String?
+  tradeGroup   TradeGroup? @relation(fields: [tradeGroupId], references: [id])
 
   createdAt DateTime @default(now())
   status    String   @default("pending") // pending, accepted, rejected
 }
 
-model TradeProposal {
+model TradeGroup {
   id        String   @id @default(uuid())
   status    String   @default("pending") // available, rejected, completed
   createdAt DateTime @default(now())
