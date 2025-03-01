@@ -7,21 +7,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Account {
   userId            String
   type              String
@@ -75,4 +60,68 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items          Item[]
+  outgoingTrades TradeGraphEdge[] @relation("FromUserRelation") 
+  incomingTrades TradeGraphEdge[] @relation("ToUserRelation") 
+}
+
+model Item {
+  id          String   @id @default(uuid())
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  title       String
+  description String?
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+
+  outgoingTrades TradeGraphEdge[] @relation("OutgoingEdges")
+  incomingTrades TradeGraphEdge[] @relation("IncomingEdges")
+}
+
+model TradeGraphEdge {
+  id String @id @default(uuid())
+
+  fromUserId String
+  fromUser   User   @relation("FromUserRelation", fields: [fromUserId], references: [id])
+
+  fromItemId String
+  fromItem   Item   @relation("OutgoingEdges", fields: [fromItemId], references: [id])
+
+  toUserId String
+  toUser   User   @relation("ToUserRelation", fields: [toUserId], references: [id])
+
+  toItemId String
+  toItem   Item   @relation("IncomingEdges", fields: [toItemId], references: [id])
+
+  tradeProposalId String?
+  tradeProposal   TradeProposal? @relation(fields: [tradeProposalId], references: [id])
+
+  createdAt DateTime @default(now())
+  status    String   @default("pending") // pending, accepted, rejected
+}
+
+model TradeProposal {
+  id        String   @id @default(uuid())
+  status    String   @default("pending") // available, rejected, completed
+  createdAt DateTime @default(now())
+
+  tradeEdges TradeGraphEdge[]
+
+  participantIds String[] // Store user IDs directly
 }
