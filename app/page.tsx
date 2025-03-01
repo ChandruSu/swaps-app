@@ -1,10 +1,9 @@
 "use server";
 
-import { signIn } from "@/auth";
-import Image from "next/image";
-import Link from "next/link";
+import { auth, signIn } from "@/auth";
 
 export default async function Home() {
+  const session = await auth();
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <form
@@ -14,6 +13,7 @@ export default async function Home() {
         }}
       >
         <button type="submit">Signin with Google</button>
+        <p>{session?.user?.email}</p>
       </form>
     </main>
   );
