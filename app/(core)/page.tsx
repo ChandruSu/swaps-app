@@ -24,7 +24,7 @@ export default async function Home() {
       <div className="relative flex items-center justify-center">
         <Ripple />
         <Link href="/dashboard">
-          <p className="bg-foreground font-medium rounded-full px-8 py-4 text-xl text-background hover:bg-slate-700 transition-all duration-200">
+          <p className="bg-foreground font-medium rounded-full px-8 py-4 text-xl text-background hover:bg-[#303030] shadow-2xl transition-all duration-200">
             Start Trading
           </p>
         </Link>
