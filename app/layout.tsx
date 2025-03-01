@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Inter, Poppins } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -19,7 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <SessionProvider>
+        <body className={inter.className}>{children}</body>
+      </SessionProvider>
     </html>
   );
 }
