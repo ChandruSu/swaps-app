@@ -5,33 +5,32 @@ from typing import List
 
 router = APIRouter()
 
-# tag_enums = [tag.value for tag in Tag]
-tag_enums: set = {
-  "ELECTRONICS"
-  "CLOTHING"
-  "FURNITURE"
-  "BOOKS"
-  "SPORTS"
-  "TOYS"
-  "VEHICLES"
-  "ART"
-  "MUSIC"
-  "APPLIANCES"
-  "JEWELRY"
-  "COLLECTIBLES"
-  "GARDEN"
-  "PETS"
-  "HEALTH"
-  "BEAUTY"
-  "FOOD"
-  "HANDMADE"
-  "GAMING"
-  "OFFICE"
-  "OUTDOORS"
-  "HOME_DECOR"
-  "BABY"
-  "INDUSTRIAL"
- "OTHER"
+tag_enums = {
+  "ELECTRONICS",
+  "CLOTHING",
+  "FURNITURE",
+  "BOOKS",
+  "SPORTS",
+  "TOYS",
+  "VEHICLES",
+  "ART",
+  "MUSIC",
+  "APPLIANCES",
+  "JEWELRY",
+  "COLLECTIBLES",
+  "GARDEN",
+  "PETS",
+  "HEALTH",
+  "BEAUTY",
+  "FOOD",
+  "HANDMADE",
+  "GAMING",
+  "OFFICE",
+  "OUTDOORS",
+  "HOME_DECOR",
+  "BABY",
+  "INDUSTRIAL",
+  "OTHER"
 }
 
 
@@ -49,7 +48,6 @@ async def create_item(owner_id: str, title: str, description: str = None, image_
     # validate tags against Prisma enum
     for t in tags:
         if t.upper() not in tag_enums:
-            print(t)
             raise HTTPException(status_code=400, detail=f"Invalid tag: {t}")
 
     item = await db.item.create(
@@ -76,7 +74,7 @@ async def get_items_by_user(user_id: str):
 
 
 @router.get("/items/by-tags")
-async def get_items_by_tags(tags: List[str] = []):
+async def get_items_by_tags(tags: List[str] = Query(default=[])):
     items = await db.item.find_many(
         where={"tags": {"has_some": tags}}
     )
