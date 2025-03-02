@@ -2,9 +2,10 @@ import { NavBar } from "@/components/NavBar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div
+    <div suppressHydrationWarning
       className={`grid h-screen w-full grid-cols-1 grid-rows-[3rem_auto] overflow-hidden bg-transparent p-4`}
     >
+
       <NavBar
         options={[
           { label: "Explore", path: "/explore" },

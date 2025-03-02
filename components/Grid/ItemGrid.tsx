@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
@@ -11,7 +11,7 @@ import {
   SortingState,
   ColumnFiltersState,
 } from "@tanstack/react-table";
-import { fetchItems, fetchItemsByUser, fetchItemsByTags, Item } from "@/app/api/lib/api"
+import { fetchItems, fetchItemsByUser, fetchItemsByTags, Item } from "@/app/api/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -33,82 +33,40 @@ export default function ItemGrid() {
   const [viewingUser, setViewingUser] = useState<string | null>(null);
 
   // Fetch items
-  const { data: items, isLoading, error } = useQuery<Item[]>({
-    queryKey: ["items", selectedTag, viewingUser],
-    queryFn: async () => {
-      if (selectedTag) {
-        return await fetchItemsByTags([selectedTag]);
-      } else if (viewingUser) {
-        return await fetchItemsByUser(viewingUser);
-      } else {
-        return await fetchItems();
-      }
-    },
-  });
+  useEffect(() => {fetchData()}, [selectedTag])
 
-  const table = useReactTable({
-    data: items || [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: { sorting, columnFilters },
-  });
+  async function fetchData(){
+    let res;
+    if (selectedTag) {
+      res =  await fetchItemsByTags([selectedTag]);
+    } else if (viewingUser) {
+      res = await fetchItemsByUser(viewingUser);
+    } else {
+      res = await fetchItems();
+    }
+    console.log(res)
+    alert(res)
+  }
+  
+
+  // const table = useReactTable({
+  //   data: res,
+  //   columns,
+  //   getCoreRowModel: getCoreRowModel(),
+  //   getPaginationRowModel: getPaginationRowModel(),
+  //   onSortingChange: setSorting,
+  //   getSortedRowModel: getSortedRowModel(),
+  //   onColumnFiltersChange: setColumnFilters,
+  //   getFilteredRowModel: getFilteredRowModel(),
+  //   state: { sorting, columnFilters },
+  // });
 
   return (
     <div className="container mx-auto py-10">
       {/* Filters & Controls */}
-      <div className="flex items-center justify-between py-4">
-        <h1 className="text-2xl font-bold">Marketplace Items</h1>
-        <div className="flex items-center space-x-4">
-          <Select onValueChange={setSelectedTag} value={selectedTag}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by Tag" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="">All Tags</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Input
-            placeholder="Search items..."
-            className="max-w-sm"
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-            onChange={(e) => table.getColumn("title")?.setFilterValue(e.target.value)}
-          />
-
-          <Button onClick={() => setIsDialogOpen(true)}>Add Item</Button>
-        </div>
-      </div>
-
-      {/* Loading and Error Handling */}
-      {isLoading && <div className="text-center py-4">Loading items...</div>}
-      {error && <div className="text-center text-red-500 py-4">Error loading items</div>}
-
-      {/* Grid View */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-6">
-        {table.getRowModel().rows.length ? (
-          table.getRowModel().rows.map((row) => <ItemCard key={row.original.id} item={row.original} />)
-        ) : (
-          <div className="col-span-full text-center text-gray-500">No items found.</div>
-        )}
-      </div>
-
-      {/* Pagination Controls */}
-      <div className="flex items-center justify-center space-x-2 py-4">
-        <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          Previous
-        </Button>
-        <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          Next
-        </Button>
-      </div>
 
       {/* Add Item Dialog */}
-      <ItemDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+      {/* <ItemDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} /> */}
     </div>
   );
 }
