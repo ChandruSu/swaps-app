@@ -2,15 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "@fontsource/poppins/100.css";
+/* @import "tailwindcss";
+@config "../../tailwind.config.js";
+ */
+
+/* @import "@fontsource/poppins/100.css";
 @import "@fontsource/poppins/200.css";
 @import "@fontsource/poppins/300.css";
 @import "@fontsource/poppins/400.css";
 @import "@fontsource/poppins/500.css";
 @import "@fontsource/poppins/600.css";
-@import "@fontsource/poppins/700.css";
+@import "@fontsource/poppins/700.css"
 @import "@fontsource/poppins/800.css";
-@import "@fontsource/poppins/900.css";
+@import "@fontsource/poppins/900.css"; */
 
 :root {
   --accent: #1f1f20;
@@ -74,7 +78,6 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 @layer base {
   :root {
     --background: #e7e7e7;
@@ -140,4 +143,4 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-}
+} 

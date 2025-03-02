@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
-import { NavBar } from "@/components/NavBar";
+import { Providers } from "./Providers";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`min-h-screen overflow-hidden ${poppins.className}`}>
-        <SessionProvider>{children}</SessionProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

@@ -48,7 +48,7 @@ export function Client() {
       <Panel className="grid grid-rows-[auto_3rem] gap-3 overflow-hidden p-2">
         <div className="no-scrollbar flex flex-col gap-4 overflow-y-scroll p-2">
           {messages.map((message, i) => (
-            <Message me={i % 2 === 0} message="This is a message" />
+            <Message key={i} me={i % 2 === 0} message="This is a message" />
           ))}
         </div>
         <input
