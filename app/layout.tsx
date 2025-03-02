@@ -1,8 +1,7 @@
 import "./globals.css";
-import { Inter, Poppins } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
+import { Poppins } from "next/font/google";
+import { Providers } from "./Providers";
 
-const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -20,9 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <SessionProvider>
-        <body className={inter.className}>{children}</body>
-      </SessionProvider>
+      <body className={`min-h-screen overflow-hidden ${poppins.className}`}>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

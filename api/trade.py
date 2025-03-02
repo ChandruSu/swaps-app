@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from api.db import db
 from collections import defaultdict
-from typing import Dict
+from typing import Dict, List
 
 router = APIRouter()
 
