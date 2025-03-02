@@ -47,7 +47,6 @@ async def delete_trade(trade_id: str, user_id: str):
     await db.tradegraphedge.delete(where={"id": trade_id})
     return {"message": "Trade successfully deleted"}
 
-
 @router.get("/trades/detect-cycles")
 async def detect_trade_cycles():
     """Find SCCs in the trade graph and create trade groups from them."""
@@ -60,12 +59,17 @@ async def detect_trade_cycles():
 
     # Build directed graph & store trade edges
     trade_graph = defaultdict(list)
-    trade_edges: Dict[str, List[Dict]] = defaultdict(list)  # Store all trades for a user pair
+    # Use a consistent tuple format for trade_edges keys
+    trade_edges = defaultdict(list)  # Store all trades for a user pair
 
     for trade in trades:
-        from_id, to_id = trade.fromUser.id, trade.toUser.id
+        from_id, to_id = trade.fromUserId, trade.toUserId  # Use direct IDs instead of nested objects
         trade_graph[from_id].append(to_id)
-        trade_edges[(from_id, to_id)].append({"id": trade.id, "fromItemId": trade.fromItemId})
+        # Store the complete trade object or necessary details
+        trade_edges[(from_id, to_id)].append({
+            "id": trade.id, 
+            "fromItemId": trade.fromItemId
+        })
 
     # Tarjan's SCC Algorithm
     def find_scc(graph):
@@ -125,7 +129,13 @@ async def detect_trade_cycles():
         for from_user in scc:
             for to_user in trade_graph[from_user]:  # Get actual trades in SCC
                 if to_user in scc:
-                    edges_to_update = trade_edges.get((from_user, to_user), [])
+                    # Use the exact same tuple format as when storing
+                    key = (from_user, to_user)
+                    edges_to_update = trade_edges.get(key, [])
+                    
+                    # Log for debugging
+                    print(f"Updating edges from {from_user} to {to_user}: {len(edges_to_update)} found")
+                    
                     for edge in edges_to_update:
                         await db.tradegraphedge.update(
                             where={"id": edge["id"]},
