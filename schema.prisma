@@ -92,8 +92,6 @@ model Item {
   createdAt   DateTime @default(now())
   tags        Tag[]
 
-  outgoingTrades TradeGraphEdge[] @relation("OutgoingEdges")
-  incomingTrades TradeGraphEdge[] @relation("IncomingEdges")
 }
 
 enum Tag {
@@ -133,19 +131,15 @@ model TradeGraphEdge {
   fromUser   User   @relation("FromUserRelation", fields: [fromUserId], references: [id])
 
   fromItemId String
-  fromItem   Item   @relation("OutgoingEdges", fields: [fromItemId], references: [id])
 
   toUserId String
   toUser   User   @relation("ToUserRelation", fields: [toUserId], references: [id])
-
-  toItemId String
-  toItem   Item   @relation("IncomingEdges", fields: [toItemId], references: [id])
 
   tradeGroupId String?
   tradeGroup   TradeGroup? @relation(fields: [tradeGroupId], references: [id])
 
   createdAt DateTime @default(now())
-  status    String   @default("pending") // pending, accepted, rejected
+  status    String   @default("pending") // available, pending, accepted, rejected
 }
 
 model TradeGroup {
